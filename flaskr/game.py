@@ -24,40 +24,58 @@ def state_change():
     return redirect(url_for('.running'))
 
 
-@bp.route('/running_state/<int:row>_<int:column>', methods=['GET'])
-def running_state(row=None, column=None):
+@bp.route('/running_state', methods=['GET'])
+def running_state():
+    row = request.args.get('row')
+    column = request.args.get('column')
     game_state = get_state()
-    if row=="-1" or column=="-1":
-        return jsonify(game_state)
+    if row==None or column==None:
+        try:
+            return jsonify(game_state)
+        except:
+            return jsonify(False)
     else:
-        state = game_state[row][column]
-        return jsonify(state)
+        try:
+            state = game_state[int(row)][int(column)]
+            return jsonify(state)
+        except:
+            return jsonify(False)
 
 
 @bp.route('/start', methods=['GET', 'POST'])
 def start():
-    if request.method == 'POST':
-        rows = request.form['rows']
-        columns  = request.form['columns']
-        error = None
+    rows = request.args.get('rows')
+    columns = request.args.get('columns')
+    if rows==None or columns==None:
+        if request.method == 'POST':
+            rows = request.form['rows']
+            columns  = request.form['columns']
+            error = None
+            try:
+                rows = int(rows)
+                columns = int(columns)
+            except ValueError:
+                error = "Please input integers"
 
-        try:
-            rows = int(rows)
-            columns = int(columns)
-        except ValueError:
-            error = "Please input integers"
+            if rows < 1 or columns < 1:
+                error = "Please specify a positive dimension"
 
-        if rows < 1 or columns < 1:
-            error = "Please specify a positive dimension"
+            if error is None:
+                if create_state(rows, columns):
+                    return redirect(url_for('game.running'))
+                else:
+                    error = "Failed to start game"
 
-        if error is None:
-            if create_state(rows, columns):
-                return redirect(url_for('game.running'))
-            else:
-                error = "Failed to start game"
+            flash(error)
 
-        flash(error)
-
-    return render_template('game/start.html')
+        return render_template('game/start.html')
+    else:
+        if create_state(int(rows), int(columns)):
+            return redirect(url_for('game.running'))
+        else:
+            error = "Failed to start game"
+            flash(error)
+            
+            return render_template('game/start.html')    
 
 

@@ -9,9 +9,9 @@
 		{% for j in range(columns) %}
 		<a href="{{url_for('game.state_change',row=i,column=j)}}">
 			{% if state[i][j] %}
-				<button type="button" style="background-color:white"> ON</button>
+				<button type="button" style="background-color:white;height:50px;width:50px"> ON</button>
 			{% else %}
-				<button type="button" style="background-color:grey">OFF</button>
+				<button type="button" style="background-color:black;height:50px;width:50px;color:white">OFF</button>
 			{% endif %}
 		</a>
 		{% endfor %}
