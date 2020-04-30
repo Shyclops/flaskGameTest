@@ -28,5 +28,6 @@ def create_app(test_config=None):
     
     from . import game
     app.register_blueprint(game.bp)
+    
 
     return app

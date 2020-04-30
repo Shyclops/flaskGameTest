@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Lights Out{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<form method="post">
+		<label for="rows">Rows</label>
+		<input name="rows" id="rows" required>
+		<label for="columns">Columns</label>
+		<input name="columns" id="columns" required>
+		<input type="submit" value="Start">
+	</form>
+{% endblock %}
