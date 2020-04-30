@@ -28,6 +28,5 @@ def create_app(test_config=None):
     
     from . import game
     app.register_blueprint(game.bp)
-    app.add_url_rule('/',endpoint='game')
 
     return app
