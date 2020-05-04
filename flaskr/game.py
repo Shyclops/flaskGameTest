@@ -43,9 +43,7 @@ def running_state():
 
 
 @bp.route('/start', methods=['GET', 'POST'])
-def start():
-    rows = request.args.get('rows')
-    columns = request.args.get('columns')
+def start(rows=None, columns=None):
     if rows==None or columns==None:
         if request.method == 'POST':
             rows = request.form['rows']
