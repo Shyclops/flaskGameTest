@@ -7,13 +7,15 @@
 {% block content %}
 	{% for i in range(rows) %}
 		{% for j in range(columns) %}
-		<a href="{{url_for('game.state_change',row=i,column=j)}}">
-			{% if state[i][j] %}
-				<button type="button" style="background-color:white;height:50px;width:50px"> ON</button>
-			{% else %}
-				<button type="button" style="background-color:black;height:50px;width:50px;color:white">OFF</button>
-			{% endif %}
-		</a>
+			<form method ="post" style="display:inline">
+				<input type="hidden" name="row" id="row" value={{i}}>
+				<input type="hidden" name="column" id="column" value={{j}}>
+				{% if state[i][j] %}
+					<button style="background-color:white;height:50px;width:50px" value="ON"> ON</button>
+				{% else %}
+					<button style="background-color:black;height:50px;width:50px;color:white" value="OFF">OFF</button>
+				{% endif %}
+			</form>
 		{% endfor %}
 		<br>
 	{% endfor %}
